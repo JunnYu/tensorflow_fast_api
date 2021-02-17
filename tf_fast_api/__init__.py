@@ -383,6 +383,17 @@ def transpose(self, perm=None, conjugate=False, name='transpose'):
 
 
 @patch_to(cls=[tf.Tensor, tf.Variable])
+def t(self):
+    assert self.ndim <= 2, f"expects a tensor with <= 2 dimensions,but get ndim {self.ndim}!"
+    return self.transpose()
+
+
+@patch_to(cls=[tf.Tensor, tf.Variable], as_prop=True)
+def T(self):
+    return self.transpose()
+
+
+@patch_to(cls=[tf.Tensor, tf.Variable])
 def permute(self, perm=None, conjugate=False, name='transpose'):
     return self.transpose(perm=perm, conjugate=conjugate, name=name)
 
