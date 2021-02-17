@@ -74,42 +74,42 @@ def long(self):
 
 
 @patch_to(cls=[tf.Tensor, tf.Variable])
-def add(self, y: tf.Tensor, name=None):
+def add(self, y, name=None):
     return tf.add(self, y, name=name)
 
 
 @patch_to(cls=[tf.Tensor, tf.Variable])
-def subtract(self, y: tf.Tensor, name=None):
+def subtract(self, y, name=None):
     return tf.subtract(self, y, name=name)
 
 
 @patch_to(cls=[tf.Tensor, tf.Variable])
-def sub(self, y: tf.Tensor, name=None):
+def sub(self, y, name=None):
     return self.subtract(y, name=name)
 
 
 @patch_to(cls=[tf.Tensor, tf.Variable])
-def multiply(self, y: tf.Tensor, name=None):
+def multiply(self, y, name=None):
     return tf.multiply(self, y, name=name)
 
 
 @patch_to(cls=[tf.Tensor, tf.Variable])
-def mul(self, y: tf.Tensor, name=None):
+def mul(self, y, name=None):
     return self.multiply(y, name=name)
 
 
 @patch_to(cls=[tf.Tensor, tf.Variable])
-def divide(self, y: tf.Tensor, name=None):
+def divide(self, y, name=None):
     return tf.divide(self, y, name=name)
 
 
 @patch_to(cls=[tf.Tensor, tf.Variable])
-def div(self, y: tf.Tensor, name=None):
+def div(self, y, name=None):
     return self.divide(y, name=name)
 
 
 @patch_to(cls=[tf.Tensor, tf.Variable])
-def realdiv(self, y: tf.Tensor, name=None):
+def realdiv(self, y, name=None):
     return tf.realdiv(self, y, name=name)
 
 
@@ -145,7 +145,7 @@ def boolean_mask(self, mask, axis=None, name="boolean_mask"):
 
 
 @patch_to(cls=[tf.Tensor, tf.Variable])
-def broadcast_to(self, *shape, name=None):
+def broadcast_to(self, shape, name=None):
     return tf.broadcast_to(self, shape, name=name)
 
 
@@ -340,12 +340,12 @@ def any(self, axis=None, keepdims=False, name=None):
 
 
 @patch_to(cls=[tf.Tensor, tf.Variable])
-def equal(self, b: tf.Tensor):
+def equal(self, b):
     return tf.equal(self, b).all()
 
 
 @patch_to(cls=[tf.Tensor, tf.Variable])
-def tensordot(self, b: tf.Tensor, axes, name=None):
+def tensordot(self, b, axes, name=None):
     return tf.tensordot(self, b, axes, name=name)
 
 
@@ -385,12 +385,12 @@ def permute(self, perm=None, conjugate=False, name='transpose'):
 
 
 @patch_to(cls=[tf.Tensor, tf.Variable])
-def truncatediv(self, y: tf.Tensor, name=None):
+def truncatediv(self, y, name=None):
     return tf.truncatediv(self, y, name=name)
 
 
 @patch_to(cls=[tf.Tensor, tf.Variable])
-def truncatemod(self, y: tf.Tensor, name=None):
+def truncatemod(self, y, name=None):
     return tf.truncatemod(self, y, name=name)
 
 
@@ -562,12 +562,12 @@ def argmax(self, axis=None, output_type=tf.int64, name=None, keepdims=False):
 
 
 @patch_to(cls=[tf.Tensor, tf.Variable])
-def minimum(self, y: tf.Tensor, name=None):
+def minimum(self, y, name=None):
     return tf.minimum(self, y, name=name)
 
 
 @patch_to(cls=[tf.Tensor, tf.Variable])
-def maximum(self, y: tf.Tensor, name=None):
+def maximum(self, y, name=None):
     return tf.maximum(self, y, name=name)
 
 
@@ -711,7 +711,7 @@ def gather(self,
 
 @patch_to(cls=[tf.Tensor, tf.Variable])
 def matmul(self,
-           b: tf.Tensor,
+           b,
            transpose_a=False,
            transpose_b=False,
            adjoint_a=False,
