@@ -733,7 +733,7 @@ def matmul(self,
 @patch_to(cls=[tf.Tensor, tf.Variable])
 def getitem(self, index, axis=None):
     if isinstance(index, tuple):
-        index = tuple(x if isinstance(x, Tensor) else x for x in index)
+        index = tuple(x if isinstance(x, tf.Tensor) else x for x in index)
         basic = all(x is None or x is Ellipsis or isinstance(x, int)
                     or isinstance(x, slice) for x in index)
         if not basic:
