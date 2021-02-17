@@ -1,7 +1,6 @@
-import tensorflow as tf
-from utils import *
-
-x = tf.random.normal((3, 5, 8, 9))
-y = tf.random.normal((10, 5))
-
-print(x.argmin(axis=2, keepdims=True))
+from tf_fast_api import *
+tf.random.set_seed(2021)
+x = tf.random.normal((3, 5))
+print(x.sum())
+print(x.reduce_sum())
+print(tf.reduce_sum(x))

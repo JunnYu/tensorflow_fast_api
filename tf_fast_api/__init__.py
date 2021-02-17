@@ -1,4 +1,7 @@
 import tensorflow as tf
+import tensorflow.keras as keras
+import tensorflow.keras.backend as K
+import tensorflow.keras.layers as layers
 import numpy as np
 from fastcore.utils import patch_to
 
