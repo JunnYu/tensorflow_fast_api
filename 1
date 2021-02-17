@@ -1,132 +1,123 @@
 import tensorflow as tf
-import numpy as np
-from fastcore.utils import patch_to
+from fastcore.utils import patch
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def bool(self):
+@patch
+def bool(self: tf.Tensor):
     return self.astype("bool")
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def float(self):
+@patch
+def float(self: tf.Tensor):
     return self.astype("float32")
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def float32(self):
+@patch
+def float32(self: tf.Tensor):
     return self.astype("float32")
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def half(self):
+@patch
+def half(self: tf.Tensor):
     return self.astype("float16")
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def float16(self):
+@patch
+def float16(self: tf.Tensor):
     return self.astype("float16")
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def double(self):
+@patch
+def double(self: tf.Tensor):
     return self.astype("float64")
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def float64(self):
+@patch
+def float64(self: tf.Tensor):
     return self.astype("float64")
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def int(self):
+@patch
+def int(self: tf.Tensor):
     return self.astype("int32")
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def int32(self):
+@patch
+def int32(self: tf.Tensor):
     return self.astype("int32")
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def int8(self):
+@patch
+def int8(self: tf.Tensor):
     return self.astype("int8")
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def int16(self):
+@patch
+def int16(self: tf.Tensor):
     return self.astype("int16")
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def short(self):
+@patch
+def short(self: tf.Tensor):
     return self.astype("int16")
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def int64(self):
+@patch
+def int64(self: tf.Tensor):
     return self.astype("int64")
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def long(self):
+@patch
+def long(self: tf.Tensor):
     return self.astype("int64")
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def add(self, y: tf.Tensor, name=None):
+@patch
+def add(self: tf.Tensor, y: tf.Tensor, name=None):
     return tf.add(self, y, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def subtract(self, y: tf.Tensor, name=None):
+@patch
+def subtract(self: tf.Tensor, y: tf.Tensor, name=None):
     return tf.subtract(self, y, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def sub(self, y: tf.Tensor, name=None):
+@patch
+def sub(self: tf.Tensor, y: tf.Tensor, name=None):
     return self.subtract(y, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def multiply(self, y: tf.Tensor, name=None):
+@patch
+def multiply(self: tf.Tensor, y: tf.Tensor, name=None):
     return tf.multiply(self, y, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def mul(self, y: tf.Tensor, name=None):
+@patch
+def mul(self: tf.Tensor, y: tf.Tensor, name=None):
     return self.multiply(y, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def divide(self, y: tf.Tensor, name=None):
+@patch
+def divide(self: tf.Tensor, y: tf.Tensor, name=None):
     return tf.divide(self, y, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def div(self, y: tf.Tensor, name=None):
+@patch
+def div(self: tf.Tensor, y: tf.Tensor, name=None):
     return self.divide(y, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def realdiv(self, y: tf.Tensor, name=None):
+@patch
+def realdiv(self: tf.Tensor, y: tf.Tensor, name=None):
     return tf.realdiv(self, y, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def abs(self, name=None):
-    return tf.abs(self, name=name)
-
-
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def pow(self, y=None, name=None):
-    if y is None:
-        y = 2
-    return tf.pow(self, y, name=name)
-
-
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def argsort(self, axis=-1, direction='ASCENDING', stable=False, name=None):
+@patch
+def argsort(self: tf.Tensor,
+            axis=-1,
+            direction='ASCENDING',
+            stable=False,
+            name=None):
     return tf.argsort(self,
                       axis=axis,
                       direction=direction,
@@ -134,164 +125,168 @@ def argsort(self, axis=-1, direction='ASCENDING', stable=False, name=None):
                       name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def batch_to_space(self, block_shape, crops, name=None):
+@patch
+def batch_to_space(self: tf.Tensor, block_shape, crops, name=None):
     return tf.batch_to_space(self, block_shape, crops, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def boolean_mask(self, mask, axis=None, name="boolean_mask"):
+@patch
+def boolean_mask(self: tf.Tensor, mask, axis=None, name="boolean_mask"):
     return tf.boolean_mask(self, mask, axis=axis, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def broadcast_to(self, *shape, name=None):
+@patch
+def broadcast_to(self: tf.Tensor, *shape, name=None):
     return tf.broadcast_to(self, shape, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def clip_by_norm(self, clip_norm, axes=None, name=None):
+@patch
+def clip_by_norm(self: tf.Tensor, clip_norm, axes=None, name=None):
     return tf.clip_by_norm(self, clip_norm, axes=axes, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def clip_by_value(self, clip_value_min, clip_value_max, name=None):
+@patch
+def clip_by_value(self: tf.Tensor, clip_value_min, clip_value_max, name=None):
     return tf.clip_by_value(self, clip_value_min, clip_value_max, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def clip(self, clip_value_min, clip_value_max, name=None):
+@patch
+def clip(self: tf.Tensor, clip_value_min, clip_value_max, name=None):
     return self.clip_by_value(clip_value_min, clip_value_max, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def cond(self, true_fn=None, false_fn=None, name=None):
+@patch
+def cond(self: tf.Tensor, true_fn=None, false_fn=None, name=None):
     return tf.cond(self, true_fn=true_fn, false_fn=false_fn, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def expand_dims(self, axis, name=None):
+@patch
+def expand_dims(self: tf.Tensor, axis, name=None):
     return tf.expand_dims(self, axis, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def unsqueeze(self, axis, name=None):
+@patch
+def unsqueeze(self: tf.Tensor, axis, name=None):
     return self.expand_dims(axis, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def size(self, axis=None):
+@patch
+def size(self: tf.Tensor, axis=None):
     if axis is not None:
         return self.shape[axis]
     return self.shape
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def identity(self, name=None):
+@patch
+def identity(self: tf.Tensor, name=None):
     return tf.identity(self, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def clone(self, name=None):
+@patch
+def clone(self: tf.Tensor, name=None):
     return self.identity(name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def norm(self, ord='euclidean', axis=None, keepdims=None, name=None):
+@patch
+def norm(self: tf.Tensor,
+         ord='euclidean',
+         axis=None,
+         keepdims=None,
+         name=None):
     return tf.norm(self, ord=ord, axis=axis, keepdims=keepdims, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def ones_like(self, dtype=None, name=None):
+@patch
+def ones_like(self: tf.Tensor, dtype=None, name=None):
     if dtype is None:
         dtype = self.dtype
     return tf.ones_like(self, dtype=dtype, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def zeros_like(self, dtype=None, name=None):
+@patch
+def zeros_like(self: tf.Tensor, dtype=None, name=None):
     if dtype is None:
         dtype = self.dtype
     return tf.zeros_like(self, dtype=dtype, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def full_like(self, value, name=None):
+@patch
+def full_like(self: tf.Tensor, value, name=None):
     value = tf.cast(value, self.dtype)
     return tf.fill(self.shape, value, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def ones(self, shape, dtype=None, name=None):
+@patch
+def ones(self: tf.Tensor, shape, dtype=None, name=None):
     if dtype is None:
         dtype = self.dtype
     return tf.ones(shape, dtype=dtype, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def zeros(self, shape, dtype=None, name=None):
+@patch
+def zeros(self: tf.Tensor, shape, dtype=None, name=None):
     if dtype is None:
         dtype = self.dtype
     return tf.zeros(shape, dtype=dtype, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def rank(self, name=None):
+@patch
+def rank(self: tf.Tensor, name=None):
     return tf.rank(self, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def cast(self, dtype, name=None):
+@patch
+def cast(self: tf.Tensor, dtype, name=None):
     return tf.cast(self, dtype, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def astype(self, dtype, name=None):
+@patch
+def astype(self: tf.Tensor, dtype, name=None):
     return self.cast(dtype, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def reshape(self, shape, name=None):
+@patch
+def reshape(self: tf.Tensor, shape, name=None):
     return tf.reshape(self, shape, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def view(self, shape, name=None):
+@patch
+def view(self: tf.Tensor, shape, name=None):
     return self.reshape(shape, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def reverse(self, axis, name=None):
+@patch
+def reverse(self: tf.Tensor, axis, name=None):
     return tf.reverse(self, axis, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def flip(self, axis, name=None):
+@patch
+def flip(self: tf.Tensor, axis, name=None):
     return self.reverse(axis, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def numel(self, out_type=tf.int32, name=None):
+@patch
+def numel(self: tf.Tensor, out_type=tf.int32, name=None):
     return tf.size(self, out_type, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def slice(self, begin, size, name=None):
+@patch
+def slice(self: tf.Tensor, begin, size, name=None):
     return tf.slice(self, begin, size, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def sort(self, axis=-1, direction='ASCENDING', name=None):
+@patch
+def sort(self: tf.Tensor, axis=-1, direction='ASCENDING', name=None):
     return tf.sort(self, axis=axis, direction=direction, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def squeeze(self, axis, name=None):
+@patch
+def squeeze(self: tf.Tensor, axis, name=None):
     return tf.squeeze(self, axis=axis, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def strided_slice(self,
+@patch
+def strided_slice(self: tf.Tensor,
                   begin,
                   end,
                   strides=None,
@@ -315,279 +310,293 @@ def strided_slice(self,
                             name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def reduce_all(self, axis=None, keepdims=False, name=None):
+@patch
+def reduce_all(self: tf.Tensor, axis=None, keepdims=False, name=None):
     if self.dtype != tf.bool:
         self = self.astype("bool")
     return tf.reduce_all(self, axis=axis, keepdims=keepdims, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def all(self, axis=None, keepdims=False, name=None):
+@patch
+def all(self: tf.Tensor, axis=None, keepdims=False, name=None):
     return self.reduce_all(axis=axis, keepdims=keepdims, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def reduce_any(self, axis=None, keepdims=False, name=None):
+@patch
+def reduce_any(self: tf.Tensor, axis=None, keepdims=False, name=None):
     if self.dtype != tf.bool:
         self = self.astype("bool")
     return tf.reduce_any(self, axis=axis, keepdims=keepdims, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def any(self, axis=None, keepdims=False, name=None):
+@patch
+def any(self: tf.Tensor, axis=None, keepdims=False, name=None):
     return self.reduce_any(axis=axis, keepdims=keepdims, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def equal(self, b: tf.Tensor):
+@patch
+def equal(self: tf.Tensor, b: tf.Tensor):
     return tf.equal(self, b).all()
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def tensordot(self, b: tf.Tensor, axes, name=None):
+@patch
+def tensordot(self: tf.Tensor, b: tf.Tensor, axes, name=None):
     return tf.tensordot(self, b, axes, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def tensor_scatter_nd_add(self, indices, updates, name=None):
+@patch
+def tensor_scatter_nd_add(self: tf.Tensor, indices, updates, name=None):
     return tf.tensor_scatter_nd_add(self, indices, updates, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def tensor_scatter_nd_sub(self, indices, updates, name=None):
+@patch
+def tensor_scatter_nd_sub(self: tf.Tensor, indices, updates, name=None):
     return tf.tensor_scatter_nd_sub(self, indices, updates, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def tensor_scatter_nd_update(self, indices, updates, name=None):
+@patch
+def tensor_scatter_nd_update(self: tf.Tensor, indices, updates, name=None):
     return tf.tensor_scatter_nd_update(self, indices, updates, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def tile(self, multiples, name=None):
+@patch
+def tile(self: tf.Tensor, multiples, name=None):
     return tf.tile(self, multiples, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def repeat(self, multiples, name=None):
+@patch
+def repeat(self: tf.Tensor, multiples, name=None):
     return self.tile(multiples, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def transpose(self, perm=None, conjugate=False, name='transpose'):
+@patch
+def transpose(self: tf.Tensor, perm=None, conjugate=False, name='transpose'):
     return tf.transpose(self, perm=perm, conjugate=conjugate, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def permute(self, perm=None, conjugate=False, name='transpose'):
+@patch
+def permute(self: tf.Tensor, perm=None, conjugate=False, name='transpose'):
     return self.transpose(perm=perm, conjugate=conjugate, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def truncatediv(self, y: tf.Tensor, name=None):
+@patch
+def truncatediv(self: tf.Tensor, y: tf.Tensor, name=None):
     return tf.truncatediv(self, y, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def truncatemod(self, y: tf.Tensor, name=None):
+@patch
+def truncatemod(self: tf.Tensor, y: tf.Tensor, name=None):
     return tf.truncatemod(self, y, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def unique(self, out_idx=tf.int32, name=None):
+@patch
+def unique(self: tf.Tensor, out_idx=tf.int32, name=None):
     return tf.unique(self, out_idx, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def unique_with_counts(self, out_idx=tf.int32, name=None):
+@patch
+def unique_with_counts(self: tf.Tensor, out_idx=tf.int32, name=None):
     return tf.unique_with_counts(self, out_idx, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def where(self, x=None, y=None, name=None):
+@patch
+def where(self: tf.Tensor, x=None, y=None, name=None):
     return tf.where(self, x=x, y=y, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def relu(self, name=None):
+@patch
+def relu(self: tf.Tensor, name=None):
     return tf.nn.relu(self, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def selu(self, name=None):
+@patch
+def selu(self: tf.Tensor, name=None):
     return tf.nn.selu(self, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def relu6(self, name=None):
+@patch
+def relu6(self: tf.Tensor, name=None):
     return tf.nn.relu6(self, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def tanh(self, name=None):
+@patch
+def tanh(self: tf.Tensor, name=None):
     return tf.nn.tanh(self, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def sigmoid(self, name=None):
+@patch
+def sigmoid(self: tf.Tensor, name=None):
     return tf.nn.sigmoid(self, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def leaky_relu(self, alpha=0.2, name=None):
+@patch
+def leaky_relu(self: tf.Tensor, alpha=0.2, name=None):
     return tf.nn.leaky_relu(self, alpha=alpha, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def elu(self, name=None):
+@patch
+def elu(self: tf.Tensor, name=None):
     return tf.nn.elu(self, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def softsign(self, name=None):
+@patch
+def softsign(self: tf.Tensor, name=None):
     return tf.nn.softsign(self, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def sign(self, name=None):
+@patch
+def sign(self: tf.Tensor, name=None):
     return tf.sign(self, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def sqrt(self, name=None):
+@patch
+def sqrt(self: tf.Tensor, name=None):
     return tf.sqrt(self, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def l2_loss(self, name=None):
+@patch
+def l2_loss(self: tf.Tensor, name=None):
     return tf.nn.l2_loss(self, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def log_softmax(self, axis=None, name=None):
+@patch
+def log_softmax(self: tf.Tensor, axis=None, name=None):
     return tf.nn.log_softmax(self, axis=axis, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def softmax(self, axis=None, name=None):
+@patch
+def softmax(self: tf.Tensor, axis=None, name=None):
     return tf.nn.softmax(self, axis=axis, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def flatten(self, name=None):
+@patch
+def flatten(self: tf.Tensor, name=None):
     return tf.nn.l2_loss(self, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def square(self, name=None):
+@patch
+def square(self: tf.Tensor, name=None):
     return tf.square(self, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def arctanh(self, name=None):
+@patch
+def arctanh(self: tf.Tensor, name=None):
     return tf.arctanh(self, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def reduce_sum(self, axis=None, keepdims=False, name=None):
+@patch
+def reduce_sum(self: tf.Tensor, axis=None, keepdims=False, name=None):
     if self.dtype == tf.bool:
         self = self.astype(tf.int64)
     return tf.reduce_sum(self, axis=axis, keepdims=keepdims, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def sum(self, axis=None, keepdims=False, name=None):
+@patch
+def sum(self: tf.Tensor, axis=None, keepdims=False, name=None):
     return self.reduce_sum(axis=axis, keepdims=keepdims, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def reduce_prod(self, axis=None, keepdims=False, name=None):
+@patch
+def reduce_prod(self: tf.Tensor, axis=None, keepdims=False, name=None):
     if self.dtype == tf.bool:
         self = self.astype(tf.int64)
     return tf.reduce_prod(self, axis=axis, keepdims=keepdims, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def prod(self, axis=None, keepdims=False, name=None):
+@patch
+def prod(self: tf.Tensor, axis=None, keepdims=False, name=None):
     return self.reduce_prod(axis=axis, keepdims=keepdims, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def reduce_mean(self, axis=None, keepdims=False, name=None):
+@patch
+def reduce_mean(self: tf.Tensor, axis=None, keepdims=False, name=None):
     if self.dtype == tf.bool:
         self = self.astype(tf.int64)
     return tf.reduce_mean(self, axis=axis, keepdims=keepdims, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def mean(self, axis=None, keepdims=False, name=None):
+@patch
+def mean(self: tf.Tensor, axis=None, keepdims=False, name=None):
     return self.reduce_mean(axis=axis, keepdims=keepdims, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def reduce_min(self, axis=None, keepdims=False, name=None):
+@patch
+def reduce_min(self: tf.Tensor, axis=None, keepdims=False, name=None):
     return tf.reduce_min(self, axis=axis, keepdims=keepdims, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def min(self, axis=None, keepdims=False, name=None):
+@patch
+def min(self: tf.Tensor, axis=None, keepdims=False, name=None):
     return self.reduce_min(axis=axis, keepdims=keepdims, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def reduce_max(self, axis=None, keepdims=False, name=None):
+@patch
+def reduce_max(self: tf.Tensor, axis=None, keepdims=False, name=None):
     return tf.reduce_max(self, axis=axis, keepdims=keepdims, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def max(self, axis=None, keepdims=False, name=None):
+@patch
+def max(self: tf.Tensor, axis=None, keepdims=False, name=None):
     return self.reduce_max(axis=axis, keepdims=keepdims, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def argmin(self, axis=None, output_type=tf.int64, name=None, keepdims=False):
+@patch
+def argmin(self: tf.Tensor,
+           axis=None,
+           output_type=tf.int64,
+           name=None,
+           keepdims=False):
     out = tf.argmin(self, axis=axis, output_type=output_type, name=name)
     if keepdims:
         out = out.unsqueeze(axis=axis)
     return out
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def argmax(self, axis=None, output_type=tf.int64, name=None, keepdims=False):
+@patch
+def argmax(self: tf.Tensor,
+           axis=None,
+           output_type=tf.int64,
+           name=None,
+           keepdims=False):
     out = tf.argmax(self, axis=axis, output_type=output_type, name=name)
     if keepdims:
         out = out.unsqueeze(axis=axis)
     return out
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def minimum(self, y: tf.Tensor, name=None):
+@patch
+def minimum(self: tf.Tensor, y: tf.Tensor, name=None):
     return tf.minimum(self, y, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def maximum(self, y: tf.Tensor, name=None):
+@patch
+def maximum(self: tf.Tensor, y: tf.Tensor, name=None):
     return tf.maximum(self, y, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def sort(self, axis=-1, direction='ASCENDING', name=None):
+@patch
+def sort(self: tf.Tensor, axis=-1, direction='ASCENDING', name=None):
     return tf.sort(self, axis=axis, direction=direction, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def top_k(self, k=1, sorted=True, name=None):
+@patch
+def top_k(self: tf.Tensor, k=1, sorted=True, name=None):
     return tf.math.top_k(self, k=k, sorted=sorted, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def topk(self, k=1, sorted=True, name=None):
+@patch
+def topk(self: tf.Tensor, k=1, sorted=True, name=None):
     return self.top_k(k=k, sorted=sorted, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def rand(self, shape, minval=0, maxval=None, dtype=None, seed=None, name=None):
+@patch
+def rand(self: tf.Tensor,
+         shape,
+         minval=0,
+         maxval=None,
+         dtype=None,
+         seed=None,
+         name=None):
     if dtype is None:
         dtype = self.dtype
     return tf.random.uniform(shape,
@@ -598,8 +607,8 @@ def rand(self, shape, minval=0, maxval=None, dtype=None, seed=None, name=None):
                              name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def uniform(self,
+@patch
+def uniform(self: tf.Tensor,
             shape,
             minval=0,
             maxval=None,
@@ -614,8 +623,14 @@ def uniform(self,
                      name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def randn(self, shape, mean=0.0, stddev=1.0, dtype=None, seed=None, name=None):
+@patch
+def randn(self: tf.Tensor,
+          shape,
+          mean=0.0,
+          stddev=1.0,
+          dtype=None,
+          seed=None,
+          name=None):
     if dtype is None:
         dtype = self.dtype
     return tf.random.normal(shape,
@@ -626,8 +641,8 @@ def randn(self, shape, mean=0.0, stddev=1.0, dtype=None, seed=None, name=None):
                             name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def normal(self,
+@patch
+def normal(self: tf.Tensor,
            shape,
            mean=0.0,
            stddev=1.0,
@@ -642,48 +657,52 @@ def normal(self,
                       name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def item(self):
+@patch
+def item(self: tf.Tensor):
     return self.numpy().item()
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def exp(self, name=None):
+@patch
+def exp(self: tf.Tensor, name=None):
     return tf.exp(self, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def log(self, name=None):
+@patch
+def log(self: tf.Tensor, name=None):
     return tf.math.log(self, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def log2(self, name=None):
+@patch
+def log2(self: tf.Tensor, name=None):
     return self.log(name=name) / tf.math.log(2.0)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def log10(self, name=None):
+@patch
+def log10(self: tf.Tensor, name=None):
     return self.log(name=name) / tf.math.log(10.0)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def log1p(self, name=None):
+@patch
+def log1p(self: tf.Tensor, name=None):
     return tf.math.log1p(self, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def isnan(self, name=None):
+@patch
+def isnan(self: tf.Tensor, name=None):
     return tf.math.is_nan(self, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def isinf(self, name=None):
+@patch
+def isinf(self: tf.Tensor, name=None):
     return tf.math.is_inf(self, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def cumsum(self, axis=None, exclusive=False, reverse=False, name=None):
+@patch
+def cumsum(self: tf.Tensor,
+           axis=None,
+           exclusive=False,
+           reverse=False,
+           name=None):
     if axis is None:
         self = self.reshape(-1)
         axis = 0
@@ -694,8 +713,8 @@ def cumsum(self, axis=None, exclusive=False, reverse=False, name=None):
                      name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def gather(self,
+@patch
+def gather(self: tf.Tensor,
            indices,
            validate_indices=None,
            axis=None,
@@ -709,8 +728,8 @@ def gather(self,
                      name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def matmul(self,
+@patch
+def matmul(self: tf.Tensor,
            b: tf.Tensor,
            transpose_a=False,
            transpose_b=False,
@@ -730,8 +749,8 @@ def matmul(self,
                      name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def getitem(self, index, axis=None):
+@patch
+def getitem(self: tf.Tensor, index, axis=None):
     if isinstance(index, tuple):
         index = tuple(x if isinstance(x, Tensor) else x for x in index)
         basic = all(x is None or x is Ellipsis or isinstance(x, int)
