@@ -38,6 +38,11 @@ def float64(self: tf.Tensor):
 
 
 @patch
+def int(self: tf.Tensor):
+    return self.astype("int32")
+
+
+@patch
 def int32(self: tf.Tensor):
     return self.astype("int32")
 
@@ -65,6 +70,46 @@ def int64(self: tf.Tensor):
 @patch
 def long(self: tf.Tensor):
     return self.astype("int64")
+
+
+@patch
+def add(self: tf.Tensor, y: tf.Tensor, name=None):
+    return tf.add(self, y, name=name)
+
+
+@patch
+def subtract(self: tf.Tensor, y: tf.Tensor, name=None):
+    return tf.subtract(self, y, name=name)
+
+
+@patch
+def sub(self: tf.Tensor, y: tf.Tensor, name=None):
+    return self.subtract(y, name=name)
+
+
+@patch
+def multiply(self: tf.Tensor, y: tf.Tensor, name=None):
+    return tf.multiply(self, y, name=name)
+
+
+@patch
+def mul(self: tf.Tensor, y: tf.Tensor, name=None):
+    return self.multiply(y, name=name)
+
+
+@patch
+def divide(self: tf.Tensor, y: tf.Tensor, name=None):
+    return tf.divide(self, y, name=name)
+
+
+@patch
+def div(self: tf.Tensor, y: tf.Tensor, name=None):
+    return self.divide(y, name=name)
+
+
+@patch
+def realdiv(self: tf.Tensor, y: tf.Tensor, name=None):
+    return tf.realdiv(self, y, name=name)
 
 
 @patch
@@ -198,11 +243,6 @@ def cast(self: tf.Tensor, dtype, name=None):
 @patch
 def astype(self: tf.Tensor, dtype, name=None):
     return self.cast(dtype, name=name)
-
-
-@patch
-def realdiv(self: tf.Tensor, y: tf.Tensor, name=None):
-    return tf.realdiv(self, y, name=name)
 
 
 @patch
