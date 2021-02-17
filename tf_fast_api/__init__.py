@@ -6,6 +6,13 @@ import numpy as np
 from fastcore.utils import patch_to
 
 
+def transform_shape(shape):
+    str_shape = str(shape)
+    if "),)" in str_shape:
+        str_shape = str_shape[1:-2]
+    return eval(str_shape)
+
+
 @patch_to(cls=[tf.Tensor, tf.Variable])
 def bool(self):
     return self.astype("bool")
@@ -148,7 +155,8 @@ def boolean_mask(self, mask, axis=None, name="boolean_mask"):
 
 
 @patch_to(cls=[tf.Tensor, tf.Variable])
-def broadcast_to(self, shape, name=None):
+def broadcast_to(self, *shape, name=None):
+    shape = transform_shape(shape)
     return tf.broadcast_to(self, shape, name=name)
 
 
@@ -225,16 +233,18 @@ def full_like(self, value, name=None):
 
 
 @patch_to(cls=[tf.Tensor, tf.Variable])
-def ones(self, shape, dtype=None, name=None):
+def ones(self, *shape, dtype=None, name=None):
     if dtype is None:
         dtype = self.dtype
+    shape = transform_shape(shape)
     return tf.ones(shape, dtype=dtype, name=name)
 
 
 @patch_to(cls=[tf.Tensor, tf.Variable])
-def zeros(self, shape, dtype=None, name=None):
+def zeros(self, *shape, dtype=None, name=None):
     if dtype is None:
         dtype = self.dtype
+    shape = transform_shape(shape)
     return tf.zeros(shape, dtype=dtype, name=name)
 
 
@@ -254,12 +264,13 @@ def astype(self, dtype, name=None):
 
 
 @patch_to(cls=[tf.Tensor, tf.Variable])
-def reshape(self, shape, name=None):
+def reshape(self, *shape, name=None):
+    shape = transform_shape(shape)
     return tf.reshape(self, shape, name=name)
 
 
 @patch_to(cls=[tf.Tensor, tf.Variable])
-def view(self, shape, name=None):
+def view(self, *shape, name=None):
     return self.reshape(shape, name=name)
 
 
@@ -601,9 +612,16 @@ def topk(self, k=1, sorted=True, name=None):
 
 
 @patch_to(cls=[tf.Tensor, tf.Variable])
-def rand(self, shape, minval=0, maxval=None, dtype=None, seed=None, name=None):
+def rand(self,
+         *shape,
+         minval=0,
+         maxval=None,
+         dtype=None,
+         seed=None,
+         name=None):
     if dtype is None:
         dtype = self.dtype
+    shape = transform_shape(shape)
     return tf.random.uniform(shape,
                              minval=minval,
                              maxval=maxval,
@@ -614,7 +632,7 @@ def rand(self, shape, minval=0, maxval=None, dtype=None, seed=None, name=None):
 
 @patch_to(cls=[tf.Tensor, tf.Variable])
 def uniform(self,
-            shape,
+            *shape,
             minval=0,
             maxval=None,
             dtype=None,
@@ -629,9 +647,16 @@ def uniform(self,
 
 
 @patch_to(cls=[tf.Tensor, tf.Variable])
-def randn(self, shape, mean=0.0, stddev=1.0, dtype=None, seed=None, name=None):
+def randn(self,
+          *shape,
+          mean=0.0,
+          stddev=1.0,
+          dtype=None,
+          seed=None,
+          name=None):
     if dtype is None:
         dtype = self.dtype
+    shape = transform_shape(shape)
     return tf.random.normal(shape,
                             mean=mean,
                             stddev=stddev,
@@ -642,7 +667,7 @@ def randn(self, shape, mean=0.0, stddev=1.0, dtype=None, seed=None, name=None):
 
 @patch_to(cls=[tf.Tensor, tf.Variable])
 def normal(self,
-           shape,
+           *shape,
            mean=0.0,
            stddev=1.0,
            dtype=None,
