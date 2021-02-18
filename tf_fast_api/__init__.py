@@ -6,11 +6,11 @@ import numpy as np
 from fastcore.utils import patch_to
 
 
-def transform_shape(shape):
-    str_shape = str(shape)
-    if "),)" in str_shape:
-        str_shape = str_shape[1:-2]
-    return eval(str_shape)
+def transform_size(size):
+    str_size = str(size)
+    if "),)" in str_size or "],)" in str_size:
+        str_size = str_size[1:-2]
+    return eval(str_size)
 
 
 @patch_to(cls=[tf.Tensor, tf.Variable])
@@ -156,8 +156,8 @@ def boolean_mask(self, mask, axis=None, name="boolean_mask"):
 
 @patch_to(cls=[tf.Tensor, tf.Variable])
 def broadcast_to(self, *size, shape=None, name=None):
-    if shape is None:
-        shape = transform_shape(size)
+    if shape is None and len(size) != 0:
+        shape = transform_size(size)
     return tf.broadcast_to(self, shape, name=name)
 
 
@@ -237,8 +237,8 @@ def full_like(self, value, name=None):
 def ones(self, *size, shape=None, dtype=None, name=None):
     if dtype is None:
         dtype = self.dtype
-    if shape is None:
-        shape = transform_shape(size)
+    if shape is None and len(size) != 0:
+        shape = transform_size(size)
     return tf.ones(shape, dtype=dtype, name=name)
 
 
@@ -246,8 +246,8 @@ def ones(self, *size, shape=None, dtype=None, name=None):
 def zeros(self, *size, shape=None, dtype=None, name=None):
     if dtype is None:
         dtype = self.dtype
-    if shape is None:
-        shape = transform_shape(size)
+    if shape is None and len(size) != 0:
+        shape = transform_size(size)
     return tf.zeros(shape, dtype=dtype, name=name)
 
 
@@ -268,8 +268,8 @@ def astype(self, dtype, name=None):
 
 @patch_to(cls=[tf.Tensor, tf.Variable])
 def reshape(self, *size, shape=None, name=None):
-    if shape is None:
-        shape = transform_shape(size)
+    if shape is None and len(size) != 0:
+        shape = transform_size(size)
     return tf.reshape(self, shape, name=name)
 
 
@@ -393,7 +393,9 @@ def repeat(self, multiples, name=None):
 
 
 @patch_to(cls=[tf.Tensor, tf.Variable])
-def transpose(self, perm=None, conjugate=False, name='transpose'):
+def transpose(self, *size, perm=None, conjugate=False, name='transpose'):
+    if perm is None and len(size) != 0:
+        perm = transform_size(size)
     return tf.transpose(self, perm=perm, conjugate=conjugate, name=name)
 
 
@@ -409,8 +411,8 @@ def T(self):
 
 
 @patch_to(cls=[tf.Tensor, tf.Variable])
-def permute(self, perm=None, conjugate=False, name='transpose'):
-    return self.transpose(perm=perm, conjugate=conjugate, name=name)
+def permute(self, *size, perm=None, conjugate=False, name='transpose'):
+    return self.transpose(*size, perm=perm, conjugate=conjugate, name=name)
 
 
 @patch_to(cls=[tf.Tensor, tf.Variable])
@@ -501,11 +503,6 @@ def log_softmax(self, axis=None, name=None):
 @patch_to(cls=[tf.Tensor, tf.Variable])
 def softmax(self, axis=None, name=None):
     return tf.nn.softmax(self, axis=axis, name=name)
-
-
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def flatten(self, name=None):
-    return tf.nn.l2_loss(self, name=name)
 
 
 @patch_to(cls=[tf.Tensor, tf.Variable])
@@ -626,8 +623,8 @@ def rand(self,
          name=None):
     if dtype is None:
         dtype = self.dtype
-    if shape is None:
-        shape = transform_shape(size)
+    if shape is None and len(size) != 0:
+        shape = transform_size(size)
     return tf.random.uniform(shape=shape,
                              minval=minval,
                              maxval=maxval,
@@ -665,8 +662,8 @@ def randn(self,
           name=None):
     if dtype is None:
         dtype = self.dtype
-    if shape is None:
-        shape = transform_shape(size)
+    if shape is None and len(size) != 0:
+        shape = transform_size(size)
     return tf.random.normal(shape=shape,
                             mean=mean,
                             stddev=stddev,
