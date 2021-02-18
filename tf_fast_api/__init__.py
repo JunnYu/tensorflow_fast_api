@@ -304,7 +304,9 @@ def sort(self, axis=-1, direction='ASCENDING', name=None):
 
 
 @patch_to(cls=[tf.Tensor, tf.Variable])
-def squeeze(self, axis, name=None):
+def squeeze(self, *size, axis=None, name=None):
+    if axis is None and len(size) != 0:
+        axis = transform_size(size)
     return tf.squeeze(self, axis=axis, name=name)
 
 
@@ -358,8 +360,8 @@ def any(self, axis=None, keepdims=False, name=None):
 
 
 @patch_to(cls=[tf.Tensor, tf.Variable])
-def equal(self, b):
-    return tf.equal(self, b).all()
+def equal(self, b, name=None):
+    return tf.equal(self, b, name=name)
 
 
 @patch_to(cls=[tf.Tensor, tf.Variable])
@@ -383,13 +385,15 @@ def tensor_scatter_nd_update(self, indices, updates, name=None):
 
 
 @patch_to(cls=[tf.Tensor, tf.Variable])
-def tile(self, multiples, name=None):
+def tile(self, *size, multiples=None, name=None):
+    if multiples is None and len(size) != 0:
+        multiples = transform_size(size)
     return tf.tile(self, multiples, name=name)
 
 
 @patch_to(cls=[tf.Tensor, tf.Variable])
-def repeat(self, multiples, name=None):
-    return self.tile(multiples, name=name)
+def repeat(self, *size, multiples=None, name=None):
+    return self.tile(*size, multiples, name=name)
 
 
 @patch_to(cls=[tf.Tensor, tf.Variable])
@@ -621,8 +625,6 @@ def rand(self,
          dtype=None,
          seed=None,
          name=None):
-    if dtype is None:
-        dtype = self.dtype
     if shape is None and len(size) != 0:
         shape = transform_size(size)
     return tf.random.uniform(shape=shape,
@@ -660,8 +662,6 @@ def randn(self,
           dtype=None,
           seed=None,
           name=None):
-    if dtype is None:
-        dtype = self.dtype
     if shape is None and len(size) != 0:
         shape = transform_size(size)
     return tf.random.normal(shape=shape,
