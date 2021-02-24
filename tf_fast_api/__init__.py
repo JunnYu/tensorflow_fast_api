@@ -743,6 +743,12 @@ def cumsum(self, axis=None, exclusive=False, reverse=False, name=None):
 
 
 @patch_to(cls=[tf.Tensor, tf.Variable])
+def embedding_lookup(self, ids, max_norm=None, name=None):
+    # 从第一个维度self.shape[0]查找
+    return tf.nn.embedding_lookup(self, ids=ids, max_norm=max_norm, name=name)
+
+
+@patch_to(cls=[tf.Tensor, tf.Variable])
 def gather(self,
            indices,
            validate_indices=None,
