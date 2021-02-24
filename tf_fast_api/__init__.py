@@ -193,9 +193,13 @@ def unsqueeze(self, axis, name=None):
 
 @patch_to(cls=[tf.Tensor, tf.Variable])
 def size(self, axis=None):
-    if axis is not None:
-        return self.shape[axis]
-    return self.shape
+    static = self.shape.as_list()
+    dynamic = tf.shape(self)
+    shape_list = [dynamic[i] if s is None else s for i, s in enumerate(static)]
+    if axis is None:
+        return shape_list
+    else:
+        return shape_list[axis]
 
 
 @patch_to(cls=[tf.Tensor, tf.Variable])
