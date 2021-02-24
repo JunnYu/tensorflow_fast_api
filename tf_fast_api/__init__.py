@@ -393,7 +393,7 @@ def tile(self, *size, multiples=None, name=None):
 
 @patch_to(cls=[tf.Tensor, tf.Variable])
 def repeat(self, *size, multiples=None, name=None):
-    return self.tile(*size, multiples, name=name)
+    return self.tile(*size, multiples=multiples, name=name)
 
 
 @patch_to(cls=[tf.Tensor, tf.Variable])
