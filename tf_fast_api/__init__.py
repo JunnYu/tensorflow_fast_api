@@ -5,6 +5,8 @@ import tensorflow.keras.layers as layers
 import numpy as np
 from fastcore.utils import patch_to
 
+ttf = tf.constant(0.0)
+
 
 def transform_size(size):
     str_size = str(size)
@@ -744,6 +746,26 @@ def cumsum(self, axis=None, exclusive=False, reverse=False, name=None):
                      exclusive=exclusive,
                      reverse=reverse,
                      name=name)
+
+
+@patch_to(cls=[tf.Tensor, tf.Variable])
+def split(self, num_or_size_splits, axis=0, num=None, name="split"):
+    return tf.split(self, num_or_size_splits, axis=axis, num=num, name=name)
+
+
+@patch_to(cls=[tf.Tensor, tf.Variable])
+def chunk(self, chunks, axis=0, name="chunk"):
+    shape = self.size(axis)
+    i = 0
+    while (shape + i) % chunks != 0:
+        i += 1
+    new_chunks = [(shape + i) // chunks] * chunks
+    if i > 0:
+        new_chunks[-1] -= i
+    return self.split(num_or_size_splits=new_chunks,
+                      axis=axis,
+                      num=None,
+                      name=name)
 
 
 @patch_to(cls=[tf.Tensor, tf.Variable])
