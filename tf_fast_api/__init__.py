@@ -561,22 +561,22 @@ def mean(self, axis=None, keepdims=False, name=None):
     return self.reduce_mean(axis=axis, keepdims=keepdims, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
+@patch_to(cls=[tf.Tensor, tf.Variable, tf.RaggedTensor])
 def reduce_min(self, axis=None, keepdims=False, name=None):
     return tf.reduce_min(self, axis=axis, keepdims=keepdims, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
+@patch_to(cls=[tf.Tensor, tf.Variable, tf.RaggedTensor])
 def min(self, axis=None, keepdims=False, name=None):
     return self.reduce_min(axis=axis, keepdims=keepdims, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
+@patch_to(cls=[tf.Tensor, tf.Variable, tf.RaggedTensor])
 def reduce_max(self, axis=None, keepdims=False, name=None):
     return tf.reduce_max(self, axis=axis, keepdims=keepdims, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable])
+@patch_to(cls=[tf.Tensor, tf.Variable, tf.RaggedTensor])
 def max(self, axis=None, keepdims=False, name=None):
     return self.reduce_max(axis=axis, keepdims=keepdims, name=name)
 
