@@ -9,10 +9,11 @@ ttf = tf.constant(0.0)
 
 
 def transform_size(size):
-    str_size = str(size)
-    if "),)" in str_size or "],)" in str_size:
-        str_size = str_size[1:-2]
-    return eval(str_size)
+    return size
+    # str_size = str(size)
+    # if "),)" in str_size or "],)" in str_size:
+    #     str_size = str_size[1:-2]
+    # return eval(str_size)
 
 
 @patch_to(cls=[tf.Tensor, tf.Variable])
