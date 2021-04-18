@@ -1,4 +1,5 @@
 import tensorflow as tf
+import tensorflow.experimental.numpy as tnp
 import tensorflow.keras as keras
 import tensorflow.keras.backend as K
 import tensorflow.keras.layers as layers
@@ -8,12 +9,15 @@ from fastcore.utils import patch_to
 ttf = tf.constant(0.0)
 
 
+@patch_to(cls=[tf.Tensor, tf.Variable])
+def embedding_lookup(self, ids, max_norm=None, name=None):
+    # 从第一个维度self.shape[0]查找
+    return tf.nn.embedding_lookup(self, ids=ids, max_norm=max_norm, name=name)
+
+
 def transform_size(size):
+
     return size
-    # str_size = str(size)
-    # if "),)" in str_size or "],)" in str_size:
-    #     str_size = str_size[1:-2]
-    # return eval(str_size)
 
 
 @patch_to(cls=[tf.Tensor, tf.Variable])
@@ -160,7 +164,7 @@ def boolean_mask(self, mask, axis=None, name="boolean_mask"):
 @patch_to(cls=[tf.Tensor, tf.Variable])
 def broadcast_to(self, *size, shape=None, name=None):
     if shape is None and len(size) != 0:
-        shape = transform_size(size)
+        shape = size
     return tf.broadcast_to(self, shape, name=name)
 
 
@@ -192,6 +196,43 @@ def expand_dims(self, axis, name=None):
 @patch_to(cls=[tf.Tensor, tf.Variable])
 def unsqueeze(self, axis, name=None):
     return self.expand_dims(axis, name=name)
+
+
+@patch_to(cls=[tf.Tensor, tf.Variable])
+def sin(self, name=None):
+    return tf.math.sin(self, name=name)
+
+
+@patch_to(cls=[tf.Tensor, tf.Variable])
+def cos(self, name=None):
+    return tf.math.cos(self, name=name)
+
+
+@patch_to(cls=[tf.Tensor, tf.Variable])
+def flatten(self, start=0, end=-1, name=None):
+    size = self.size()
+    mmax = len(size)
+    if start < 0:
+        start += mmax
+    if end < 0:
+        end += mmax
+    assert start != end, "start must less end"
+    left = []
+    mid = []
+    right = []
+    if 0 <= start < mmax:
+        left.extend(size[:start])
+    if 0 < end <= mmax:
+        right.extend(size[end + 1:])
+    if start != end:
+        if end == mmax:
+            mid.extend(np.cumprod(size[start:])[-1:].tolist())
+        else:
+            mid.extend(np.cumprod(size[start:end + 1])[-1:].tolist())
+
+    new_size = left + mid + right
+
+    return tf.reshape(self, new_size, name=name)
 
 
 @patch_to(cls=[tf.Tensor, tf.Variable])
@@ -245,7 +286,7 @@ def ones(self, *size, shape=None, dtype=None, name=None):
     if dtype is None:
         dtype = self.dtype
     if shape is None and len(size) != 0:
-        shape = transform_size(size)
+        shape = size
     return tf.ones(shape, dtype=dtype, name=name)
 
 
@@ -254,7 +295,7 @@ def zeros(self, *size, shape=None, dtype=None, name=None):
     if dtype is None:
         dtype = self.dtype
     if shape is None and len(size) != 0:
-        shape = transform_size(size)
+        shape = size
     return tf.zeros(shape, dtype=dtype, name=name)
 
 
@@ -276,7 +317,7 @@ def astype(self, dtype, name=None):
 @patch_to(cls=[tf.Tensor, tf.Variable])
 def reshape(self, *size, shape=None, name=None):
     if shape is None and len(size) != 0:
-        shape = transform_size(size)
+        shape = size
     return tf.reshape(self, shape, name=name)
 
 
@@ -562,22 +603,22 @@ def mean(self, axis=None, keepdims=False, name=None):
     return self.reduce_mean(axis=axis, keepdims=keepdims, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable, tf.RaggedTensor])
+@patch_to(cls=[tf.Tensor, tf.Variable])
 def reduce_min(self, axis=None, keepdims=False, name=None):
     return tf.reduce_min(self, axis=axis, keepdims=keepdims, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable, tf.RaggedTensor])
+@patch_to(cls=[tf.Tensor, tf.Variable])
 def min(self, axis=None, keepdims=False, name=None):
     return self.reduce_min(axis=axis, keepdims=keepdims, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable, tf.RaggedTensor])
+@patch_to(cls=[tf.Tensor, tf.Variable])
 def reduce_max(self, axis=None, keepdims=False, name=None):
     return tf.reduce_max(self, axis=axis, keepdims=keepdims, name=name)
 
 
-@patch_to(cls=[tf.Tensor, tf.Variable, tf.RaggedTensor])
+@patch_to(cls=[tf.Tensor, tf.Variable])
 def max(self, axis=None, keepdims=False, name=None):
     return self.reduce_max(axis=axis, keepdims=keepdims, name=name)
 
@@ -633,7 +674,7 @@ def rand(self,
          seed=None,
          name=None):
     if shape is None and len(size) != 0:
-        shape = transform_size(size)
+        shape = size
     return tf.random.uniform(shape=shape,
                              minval=minval,
                              maxval=maxval,
@@ -670,7 +711,7 @@ def randn(self,
           seed=None,
           name=None):
     if shape is None and len(size) != 0:
-        shape = transform_size(size)
+        shape = size
     return tf.random.normal(shape=shape,
                             mean=mean,
                             stddev=stddev,
@@ -747,32 +788,6 @@ def cumsum(self, axis=None, exclusive=False, reverse=False, name=None):
                      exclusive=exclusive,
                      reverse=reverse,
                      name=name)
-
-
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def split(self, num_or_size_splits, axis=0, num=None, name="split"):
-    return tf.split(self, num_or_size_splits, axis=axis, num=num, name=name)
-
-
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def chunk(self, chunks, axis=0, name="chunk"):
-    shape = self.size(axis)
-    i = 0
-    while (shape + i) % chunks != 0:
-        i += 1
-    new_chunks = [(shape + i) // chunks] * chunks
-    if i > 0:
-        new_chunks[-1] -= i
-    return self.split(num_or_size_splits=new_chunks,
-                      axis=axis,
-                      num=None,
-                      name=name)
-
-
-@patch_to(cls=[tf.Tensor, tf.Variable])
-def embedding_lookup(self, ids, max_norm=None, name=None):
-    # 从第一个维度self.shape[0]查找
-    return tf.nn.embedding_lookup(self, ids=ids, max_norm=max_norm, name=name)
 
 
 @patch_to(cls=[tf.Tensor, tf.Variable])
