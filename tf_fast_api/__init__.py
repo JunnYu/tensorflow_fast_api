@@ -575,6 +575,18 @@ def reduce_sum(self, axis=None, keepdims=False, name=None):
 
 
 @patch_to(cls=[tf.Tensor, tf.Variable])
+def reduce_logsumexp(self, axis=None, keepdims=False, name=None):
+    if self.dtype == tf.bool:
+        self = self.astype(tf.int64)
+    return tf.reduce_logsumexp(self, axis=axis, keepdims=keepdims, name=name)
+
+
+@patch_to(cls=[tf.Tensor, tf.Variable])
+def logsumexp(self, axis=None, keepdims=False, name=None):
+    return self.reduce_logsumexp(axis=axis, keepdims=keepdims, name=name)
+
+
+@patch_to(cls=[tf.Tensor, tf.Variable])
 def sum(self, axis=None, keepdims=False, name=None):
     return self.reduce_sum(axis=axis, keepdims=keepdims, name=name)
 
