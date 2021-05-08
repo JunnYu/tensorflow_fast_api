@@ -348,6 +348,8 @@ def sort(self, axis=-1, direction='ASCENDING', name=None):
 
 @patch_to(cls=[tf.Tensor, tf.Variable])
 def squeeze(self, *size, axis=None, name=None):
+    if axis is None and len(size) != 0:
+        axis = size
     return tf.squeeze(self, axis=axis, name=name)
 
 
@@ -427,6 +429,8 @@ def tensor_scatter_nd_update(self, indices, updates, name=None):
 
 @patch_to(cls=[tf.Tensor, tf.Variable])
 def tile(self, *size, multiples=None, name=None):
+    if multiples is None and len(size) != 0:
+        multiples = size
     return tf.tile(self, multiples, name=name)
 
 
@@ -437,6 +441,8 @@ def repeat(self, *size, multiples=None, name=None):
 
 @patch_to(cls=[tf.Tensor, tf.Variable])
 def transpose(self, *size, perm=None, conjugate=False, name='transpose'):
+    if perm is None and len(size) != 0:
+        perm = size
     return tf.transpose(self, perm=perm, conjugate=conjugate, name=name)
 
 
