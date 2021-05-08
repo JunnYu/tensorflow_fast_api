@@ -15,11 +15,6 @@ def embedding_lookup(self, ids, max_norm=None, name=None):
     return tf.nn.embedding_lookup(self, ids=ids, max_norm=max_norm, name=name)
 
 
-def transform_size(size):
-
-    return size
-
-
 @patch_to(cls=[tf.Tensor, tf.Variable])
 def bool(self):
     return self.astype("bool")
@@ -353,8 +348,6 @@ def sort(self, axis=-1, direction='ASCENDING', name=None):
 
 @patch_to(cls=[tf.Tensor, tf.Variable])
 def squeeze(self, *size, axis=None, name=None):
-    if axis is None and len(size) != 0:
-        axis = transform_size(size)
     return tf.squeeze(self, axis=axis, name=name)
 
 
@@ -434,8 +427,6 @@ def tensor_scatter_nd_update(self, indices, updates, name=None):
 
 @patch_to(cls=[tf.Tensor, tf.Variable])
 def tile(self, *size, multiples=None, name=None):
-    if multiples is None and len(size) != 0:
-        multiples = transform_size(size)
     return tf.tile(self, multiples, name=name)
 
 
@@ -446,8 +437,6 @@ def repeat(self, *size, multiples=None, name=None):
 
 @patch_to(cls=[tf.Tensor, tf.Variable])
 def transpose(self, *size, perm=None, conjugate=False, name='transpose'):
-    if perm is None and len(size) != 0:
-        perm = transform_size(size)
     return tf.transpose(self, perm=perm, conjugate=conjugate, name=name)
 
 
