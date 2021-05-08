@@ -440,26 +440,30 @@ def repeat(self, *size, multiples=None, name=None):
 
 
 @patch_to(cls=[tf.Tensor, tf.Variable])
-def transpose(self, *size, perm=None, conjugate=False, name='transpose'):
-    if perm is None and len(size) != 0:
-        perm = size
-    return tf.transpose(self, perm=perm, conjugate=conjugate, name=name)
+def transpose(self, *size, name='transpose'):
+    assert len(size) == 2, "size must be 2 elements"
+    perm = list(range(self.ndim))
+    a1, a2 = perm[size[0]], perm[size[1]]
+    perm[a1], perm[a2] = a2, a1
+    return tf.transpose(self, perm=perm, name=name)
 
 
 @patch_to(cls=[tf.Tensor, tf.Variable])
 def t(self):
     assert self.ndim <= 2, f"expects a tensor with <= 2 dimensions,but get ndim {self.ndim}!"
-    return self.transpose()
+    return tf.transpose(self)
 
 
 @patch_to(cls=[tf.Tensor, tf.Variable], as_prop=True)
 def T(self):
-    return self.transpose()
+    return tf.transpose(self)
 
 
 @patch_to(cls=[tf.Tensor, tf.Variable])
 def permute(self, *size, perm=None, conjugate=False, name='transpose'):
-    return self.transpose(*size, perm=perm, conjugate=conjugate, name=name)
+    if perm is None and len(size) != 0:
+        perm = size
+    return tf.transpose(self, perm=perm, conjugate=conjugate, name=name)
 
 
 @patch_to(cls=[tf.Tensor, tf.Variable])
