@@ -174,6 +174,16 @@ def clip_by_value(self, clip_value_min, clip_value_max, name=None):
 
 
 @patch_to(cls=[tf.Tensor, tf.Variable])
+def clamp(self, min=None, max=None):
+    tmp = self
+    if max is not None:
+        tmp = tf.minimum(self, max)
+    if min is not None:
+        tmp = tf.maximum(tmp, min)
+    return tmp
+
+
+@patch_to(cls=[tf.Tensor, tf.Variable])
 def clip(self, clip_value_min, clip_value_max, name=None):
     return self.clip_by_value(clip_value_min, clip_value_max, name=name)
 
@@ -201,6 +211,11 @@ def sin(self, name=None):
 @patch_to(cls=[tf.Tensor, tf.Variable])
 def cos(self, name=None):
     return tf.math.cos(self, name=name)
+
+
+@patch_to(cls=[tf.Tensor, tf.Variable])
+def reshape_as(self, tensor, name=None):
+    return tf.reshape(self, tensor.shape, name=name)
 
 
 @patch_to(cls=[tf.Tensor, tf.Variable])
@@ -435,8 +450,18 @@ def tile(self, *size, multiples=None, name=None):
 
 
 @patch_to(cls=[tf.Tensor, tf.Variable])
+def chunk(self, chunks, axis=-1, name="chunk"):
+    return tf.split(self, num_or_size_splits=chunks, axis=axis, name=name)
+
+
+@patch_to(cls=[tf.Tensor, tf.Variable])
 def repeat(self, *size, multiples=None, name=None):
     return self.tile(*size, multiples=multiples, name=name)
+
+
+@patch_to(cls=[tf.Tensor, tf.Variable])
+def expand_as(self, tensor):
+    return tf.broadcast_to(self, shape=tensor.size())
 
 
 @patch_to(cls=[tf.Tensor, tf.Variable])
