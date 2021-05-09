@@ -542,6 +542,11 @@ def sigmoid(self, name=None):
 
 
 @patch_to(cls=[tf.Tensor, tf.Variable])
+def gelu(self, name=None):
+    return tf.nn.gelu(self, name=name)
+
+
+@patch_to(cls=[tf.Tensor, tf.Variable])
 def leaky_relu(self, alpha=0.2, name=None):
     return tf.nn.leaky_relu(self, alpha=alpha, name=name)
 
